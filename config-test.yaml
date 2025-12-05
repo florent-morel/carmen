@@ -1,0 +1,40 @@
+---
+carmen_api:
+  thanos_url: "http://localhost:9090"
+  authentication: "azure"
+  credentials:
+    client_id: "12345678-1234-1234-1234-123456789012"
+    client_secret: "test-client-secret~dummy-value-for-testing"
+    tenant_id: "12345678-1234-1234-1234-123456789012"
+  scope: "https://graph.microsoft.com/.default"
+  external_labels:
+    cluster: "test-cluster"
+    environment: "test"
+  labels:
+    app_label: "label_app_kubernetes_io/part_of"
+    cluster_label: "stack"
+    pod_label: "pod"
+    namespace_label: "namespace"
+  verify_ssl: false
+
+carmen_daemon:
+  credentials:
+    client_id: "12345678-1234-1234-1234-123456789012"
+    client_secret: "test-client-secret~dummy-value-for-testing"
+    tenant_id: "12345678-1234-1234-1234-123456789012"
+  source:
+    type: "local"
+    file_names:
+      - "test-data.csv"
+    local:
+      source_path: "/tmp/test-data"
+    azure:
+      storage_account_url: null
+      container_name_read: null
+  upload:
+    type: "local"
+    local:
+      upload_path: "/tmp/test-output"
+    azure:
+      container_name_upload: null
+      blob_name: null

@@ -1,0 +1,18 @@
+# keep the order for SCI pipeline
+name: infrastructure pipeline
+hardware_models:
+  cloud-metadata:
+  teads-curve:
+  p-cpu:
+  e-cpu:
+  p-mem:
+  e-mem:
+  p-vm-storage:
+  e-vm-storage:
+  sci-e:
+  sci-e-pue:
+  sci-m-cpu:
+  m-vm-storage:
+  sci-m:
+  sci-o:
+  sci:

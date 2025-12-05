@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@grnsft/if": "1.0.0",
+    "@grnsft/if-plugins": "0.3.2",
+    "@grnsft/if-unofficial-plugins": "0.3.1",
+    "asyncio": "0.0.2",
+    "ts-node": "10.9.1"
+  }
+}

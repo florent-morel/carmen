@@ -1,0 +1,7 @@
+name: storage pipeline
+hardware_models:
+  p-storage:
+  e-storage:
+  m-storage:
+  sci-o:
+  sci:

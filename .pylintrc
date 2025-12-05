@@ -1,0 +1,10 @@
+[MESSAGES CONTROL]
+# Disable E0401 (Module not found), R0903 (Too few public methods), W0613 (Unused argument)
+disable = E0401, R0903, W0613
+
+[FORMAT]
+max-line-length = 120
+
+[DESIGN]
+max-args = 7
+max-locals = 17

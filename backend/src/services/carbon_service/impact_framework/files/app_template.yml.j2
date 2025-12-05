@@ -1,0 +1,88 @@
+name: {{ name }}
+aggregation:
+  metrics:
+    - carbon
+    - energy
+    - carbon-operational
+    - carbon-embodied
+    - cpu/energy
+    - memory/energy
+    - cpu/power
+    - resources-reserved
+  type: {{ aggregation_type }}
+initialize:
+  plugins:
+    {%- for model in hardware_models %}
+      {{ model }}:
+        method: {{ hardware_models[model].model }}
+        path: {{ hardware_models[model].path }}
+        {%- if hardware_models[model].config %}
+        config: 
+          {%- for key, value in hardware_models[model].config.items() %}
+            {%- if value is mapping %}
+            {{ key }}:
+              {%- for sub_key, sub_value in value.items() %}
+              {{ sub_key }}: {{ sub_value }}
+              {%- endfor %}
+            {%- else %}
+            {{ key }}: {{ value }}
+            {%- endif %}
+          {%- endfor %}
+        {%- endif %}
+        {%- if hardware_models[model].output_metadata or hardware_models[model].input_metadata %}
+        parameter-metadata: 
+            {%- if hardware_models[model].output_metadata %}
+            outputs:
+              {%- for metadata in hardware_models[model].output_metadata %}
+              {{ metadata.aggregation_parameter }}:
+                unit: {{ metadata.unit }}
+                description: {{ metadata.description }}
+                aggregation-method: 
+                  time: {{ metadata.aggregation_method_time }}
+                  component: {{ metadata.aggregation_method_component }}
+              {%- endfor %}
+            {%- endif %}
+            {%- if hardware_models[model].input_metadata %}
+            inputs:
+              {%- for metadata in hardware_models[model].input_metadata %}
+              {{ metadata.aggregation_parameter }}:
+                unit: {{ metadata.unit }}
+                description: {{ metadata.description }}
+                aggregation-method: 
+                  time: {{ metadata.aggregation_method_time }}
+                  component: {{ metadata.aggregation_method_component }}
+              {%- endfor %}
+            {%- endif %}
+        {%- endif %}
+    {%- endfor %}
+  outputs:
+    - yaml
+tree:
+  defaults:
+    memory/utilization: 100 # we assume memory utilization is always at 100%
+    device/emissions-embodied: 1672000 # embodied emissions in grams computed with the Embodied Emission Generator script https://rndwww.nce.amadeus.net/git/projects/ACFC/repos/embodied-emission-generator/browse
+    cpu/thermal-design-power: 3.67 # Average watt per cores for Azure taken from CCF.
+    device/expected-lifespan: 126230400 # 60 * 60 * 24 * 365.25 * 4, roughly 4 years
+    storage/energy: 0 # Default the storage energy for the applications to 0 as we only compute it for the VMs
+    storage-embodied: 0 # Default the storage embodied for the applications to 0 as we only compute it for the VMs
+    duration: {{ duration }}
+  pipeline:
+    compute:
+      {%- for model in hardware_models %}
+        - {{ model }}
+      {%- endfor %}
+  children:
+    {%- for app_id in resources %}
+      {{ app_id }}:
+        children:
+          {%- for pod_id, pod_data in resources[app_id].items() %}
+            {{ pod_id }}:
+              inputs:
+                {%- for time_point in pod_data %}
+                  - 
+                  {%- for key, value in time_point.items() %}
+                    {{ key }}: {{ value }}
+                  {%- endfor %}
+                {%- endfor %}
+          {%- endfor %}
+    {%- endfor %}

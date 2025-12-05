@@ -1,0 +1,3 @@
+[run]
+omit =
+    backend/src/services/carbon_service/amadeus/*

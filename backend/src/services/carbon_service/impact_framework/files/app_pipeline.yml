@@ -1,0 +1,13 @@
+# keep the order for SCI pipeline
+name: app pipeline
+hardware_models:
+  teads-curve:
+  p-cores:
+  e-cpu:
+  p-mem:
+  e-mem:
+  sci-e:
+  sci-e-pue:
+  sci-m-cpu:
+  sci-o:
+  sci:

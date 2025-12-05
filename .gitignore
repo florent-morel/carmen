@@ -1,0 +1,13 @@
+__pycache__/
+.venv/*
+.idea
+node_modules
+package-lock.json
+test_output
+report
+generated
+.vscode
+*.log
+*.egg-info/
+dist/
+config.yaml

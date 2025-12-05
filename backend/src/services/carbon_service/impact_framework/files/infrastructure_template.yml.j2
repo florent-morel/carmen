@@ -1,0 +1,85 @@
+name: {{ name }}
+aggregation:
+  metrics:
+    - energy
+    - carbon-operational
+    - carbon-embodied
+    - cpu/power
+    - cpu/energy
+    - storage/energy
+    - storage-embodied
+  type: {{ aggregation_type }}
+initialize:
+  plugins:
+    {%- for model in hardware_models %}
+      {{ model }}:
+        method: {{ hardware_models[model].model }}
+        path: {{ hardware_models[model].path }}
+        {%- if hardware_models[model].config %}
+        config: 
+          {%- for key, value in hardware_models[model].config.items() %}
+            {%- if value is mapping %}
+            {{ key }}:
+              {%- for sub_key, sub_value in value.items() %}
+              {{ sub_key }}: {{ sub_value }}
+              {%- endfor %}
+            {%- else %}
+            {{ key }}: {{ value }}
+            {%- endif %}
+          {%- endfor %}
+        {%- endif %}
+        {%- if hardware_models[model].output_metadata or hardware_models[model].input_metadata %}
+        parameter-metadata: 
+            {%- if hardware_models[model].output_metadata %}
+            outputs:
+              {%- for metadata in hardware_models[model].output_metadata %}
+              {{ metadata.aggregation_parameter }}:
+                unit: {{ metadata.unit }}
+                description: {{ metadata.description }}
+                aggregation-method: 
+                  time: {{ metadata.aggregation_method_time }}
+                  component: {{ metadata.aggregation_method_component }}
+              {%- endfor %}
+            {%- endif %}
+            {%- if hardware_models[model].input_metadata %}
+            inputs:
+              {%- for metadata in hardware_models[model].input_metadata %}
+              {{ metadata.aggregation_parameter }}:
+                unit: {{ metadata.unit }}
+                description: {{ metadata.description }}
+                aggregation-method: 
+                  time: {{ metadata.aggregation_method_time }}
+                  component: {{ metadata.aggregation_method_component }}
+              {%- endfor %}
+            {%- endif %}
+        {%- endif %}
+    {%- endfor %}
+  outputs:
+    - yaml
+tree:
+  defaults:
+    memory/utilization: 100 # we assume memory utilization is always at 100%
+    device/emissions-embodied: 1672000 # embodied emissions in grams computed with the Embodied Emission Generator script https://rndwww.nce.amadeus.net/git/projects/ACFC/repos/embodied-emission-generator/browse
+    device/expected-lifespan: 126230400 # 60 * 60 * 24 * 365.25 * 4, roughly 4 years
+    storage/embodied-coefficient: 90 # in gCO2e/GB
+    duration: {{ duration }}
+  pipeline:
+    compute:
+    {%- for model in hardware_models %}
+    - {{ model }}
+    {%- endfor %}
+  children:
+    {%- for vm_id, vm_data in resources.items() %}
+      {{ vm_id }}:
+        inputs:
+          {% for time_point in vm_data %}
+            -
+            {%- for key, value in time_point.items() %}
+              {%- if key == "timestamp" %}
+              {{ key }}: "{{ value }}"
+              {%- else %}
+              {{ key }}: {{ value }}
+              {%- endif %}
+            {%- endfor %}
+          {%- endfor %}
+    {%- endfor %}

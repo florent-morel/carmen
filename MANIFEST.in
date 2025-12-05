@@ -1,0 +1,56 @@
+# Include documentation
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+
+# Include configuration files
+include config-test.yaml
+include workbench.yaml
+include azure_instances.csv
+
+# Include all Python source code
+recursive-include backend *.py
+
+# Include template files
+recursive-include backend *.yml
+recursive-include backend *.yml.j2
+recursive-include backend *.yaml
+recursive-include backend *.json
+recursive-include backend *.csv
+recursive-include backend *.j2
+
+# Include type hints
+recursive-include backend py.typed
+
+# Exclude unwanted files
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
+recursive-exclude * *.so
+recursive-exclude * *.dylib
+
+# Exclude test outputs and caches
+prune backend/tests/test_output
+prune .pytest_cache
+prune .venv
+prune .idea
+prune node_modules
+prune docs
+prune build
+prune dist
+
+# Exclude version control
+global-exclude .git*
+exclude .gitignore
+exclude .gitmodules
+exclude .pre-commit-config.yaml
+
+# Exclude config files
+exclude .pylintrc
+exclude .coveragerc
+exclude Dockerfile
+exclude Jenkinsfile
+exclude Carbon_Reporting_Daemon_Jenkinsfile
+exclude package.json
+exclude package-lock.json

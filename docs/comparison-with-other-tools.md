@@ -1,0 +1,29 @@
+# Comparison with Other Tools
+
+As organizations increasingly prioritize sustainability in their software operations, several tools have emerged to help measure and reduce the carbon footprint of cloud infrastructure and applications. This page compares Carmen with other popular carbon measurement tools to help you understand where Carmen fits in the ecosystem and what makes it unique.
+
+## Cloud Carbon Footprint
+
+Cloud Carbon Footprint (CCF) is one of the most established open-source carbon measurement tools in the community, originally developed by Thoughtworks and now maintained by a vibrant open-source community. CCF provides a comprehensive dashboard that visualizes carbon emissions and cloud costs together. The tool supports multiple cloud providers and integrates with cloud billing APIs to provide detailed breakdowns of emissions by service, region, and account. CCF has pioneered many of the methodologies now used across the industry for estimating cloud carbon emissions, and it offers rich visualization capabilities that make sustainability metrics accessible to non-technical stakeholders.
+
+Carmen differentiates itself from CCF primarily through its architecture and focus on application-level granularity. While CCF excels at providing account-level and service-level aggregates with strong cloud billing integration, Carmen is built on the Green Software Foundation's Impact Framework and offers native Kubernetes integration that enables pod-level and namespace-level tracking. This makes Carmen particularly valuable for organizations running microservices architectures where development teams need visibility into their individual application's carbon footprint. Carmen's API-driven approach allows for real-time, on-demand carbon calculations for any time range, whereas CCF typically operates on scheduled dashboard updates. 
+
+## Carmen vs. Kepler
+
+Kepler (Kubernetes Efficient Power Level Exporter) is a CNCF sandbox project that has gained significant traction in the cloud-native community for its focus on measuring energy consumption in Kubernetes clusters. Kepler uses eBPF (extended Berkeley Packet Filter) technology to collect fine-grained power consumption metrics directly from the kernel, providing precise measurements of energy usage at the pod and container level. When running on hardware that supports RAPL (Running Average Power Limit) or similar power measurement interfaces, Kepler can deliver highly accurate real-time energy consumption data. The tool exports its metrics to Prometheus, making it easy to integrate into existing observability stacks and create custom dashboards using Grafana or similar visualization tools.
+
+Carmen's approach differs from Kepler in both scope and methodology. While Kepler focuses primarily on energy measurement and requires external carbon intensity mapping to calculate actual emissions, Carmen provides complete carbon footprint calculations out of the box, including both operational carbon from energy consumption and embodied carbon from hardware manufacturing and disposal. Carmen uses a model-based approach built on CPU and memory utilization metrics, which works consistently across any hardware platform without requiring specific power measurement capabilities. Beyond Kubernetes, Carmen also includes a dedicated daemon for monitoring virtual machine infrastructure, providing a more comprehensive view that spans both containerized applications and traditional VM-based workloads. Carmen's built-in reporting capabilities generate formatted CSV reports, whereas Kepler focuses on metrics export that requires additional tooling for reporting and analysis.
+
+## Carmen vs. Scaphandre
+
+Scaphandre is an open-source energy monitoring agent designed to measure the power consumption of servers and their individual components with high precision. The tool runs as a host-level agent and can track energy usage down to the process level, providing detailed insights into which applications and services are consuming the most power on a given machine. Scaphandre excels in environments with physical servers or bare-metal infrastructure, where it can leverage hardware sensors and platform-specific power measurement interfaces to deliver accurate consumption data. Like Kepler, Scaphandre can export its metrics to Prometheus, enabling integration with existing monitoring infrastructure and custom dashboard creation.
+
+Carmen distinguishes itself from Scaphandre through its cloud-native design and turnkey carbon reporting capabilities. While Scaphandre is optimized for bare-metal hosts and provides process-level energy monitoring, Carmen is specifically designed for cloud applications and Kubernetes environments, offering application-level carbon attribution that maps directly to business services and microservices. Scaphandre focuses on energy measurement and requires external tools to map those measurements to actual carbon emissions based on grid intensity, whereas Carmen includes built-in carbon calculations using regional grid carbon intensity data. 
+
+## When to Choose Carmen
+
+The carbon measurement landscape offers diverse tools, each optimized for different use cases and organizational needs. Carmen is the ideal choice for organizations that need comprehensive carbon tracking across both infrastructure and applications, particularly those running Kubernetes workloads where pod-level and namespace-level insights are valuable. Organizations that want to integrate carbon metrics into developer workflows and CI/CD pipelines will benefit from Carmen's API-driven architecture and real-time querying capabilities. 
+
+---
+
+**Questions or feedback on this comparison?** We welcome input from the community. If you have experience with other tools or suggestions for this document, please open an issue or pull request.
