@@ -63,7 +63,7 @@ We recommend installing Carmen in a virtual environment to keep dependencies iso
 python -m venv .venv
 source ./.venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install carmen
+python -m pip install amadeus-carmen
 ```
 
 **For Windows:**
@@ -72,7 +72,7 @@ python -m pip install carmen
 py -m venv .venv
 .\.venv\Scripts\activate
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\python.exe -m pip install carmen
+.\.venv\Scripts\python.exe -m pip install amadeus-carmen
 ```
 
 ### Quick Start
@@ -99,7 +99,7 @@ For more detailed information on using Carmen, refer to our comprehensive guides
 
 We welcome contributions from the community! Whether you're fixing bugs, adding features, improving documentation, or sharing feedback, your input helps make Carmen better for everyone.
 
-Please read our [Contributing Guide](./CONTRIBUTING.md) to get started.
+Please read our [Contributing Guide](./docs/CONTRIBUTING.md) to get started.
 
 ## License
 
@@ -114,13 +114,13 @@ Carmen is built on the shoulders of the open-source community. We're grateful to
 - The Kubernetes, Prometheus, and open-source monitoring communities
 
 ### Carmen original Team
- 
+
 Carmen was developed and maintained by these outstanding people:
- 
+
 **Carmen creators & project leaders:**
 - Robin CASTELLON
 - Florent MOREL
- 
+
 **Contributors:**
 - Adam Hafiz BIN AHMAD
 - Ahmad ELGHOBASHY
