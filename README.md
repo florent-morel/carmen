@@ -50,7 +50,7 @@ Before installing Carmen, ensure you have the following dependencies:
 First, install the Impact Framework and related plugins globally using npm:
 
 ```bash
-npm install -g "@grnsft/if" "@grnsft/if-plugins" "@grnsft/if-unofficial-plugins"
+sudo npm install -g "@grnsft/if" "@grnsft/if-plugins" "@grnsft/if-unofficial-plugins"
 ```
 
 #### Step 2: Install Carmen
